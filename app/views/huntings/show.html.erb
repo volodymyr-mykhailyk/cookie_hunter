@@ -3,17 +3,29 @@
     <h3>Cookies</h3>
     <p>Text</p>
     <div>
-      <%= link_to "Cookies: #{@hunter.cookies}", add_stockpile_path,
+      <%= link_to "Cookies: #{@hunter.cookies}", '#',
+                  data: { url: add_stockpile_path },
                   class: 'btn btn-success btn-large', id: 'add_cookie_link' %>
     </div>
     <div>Text2</div>
     <div>Text3</div>
   </div>
 
-  <div class='span4'>
+  <div class='span4' id='hunters_div'>
     <h3>Users</h3>
     <p>Text</p>
-    <div>Text1</div>
+    <div>
+      <ul>
+        <% @hunters.each do |hunter| %>
+            <li class='hunter <%= "hunter_#{hunter.id}" %>'>
+              <%= link_to "#{hunter.email} (#{hunter.cookies})", '#',
+                            class: 'btn btn-success btn-large hunter_link',
+                            data: { url: steal_stockpile_path(user_id: hunter.id),
+                                    id: hunter.id, email: hunter.email } %>
+            </li>
+        <% end %>
+      </ul>
+    </div>
   </div>
 
   <div class='span4'>

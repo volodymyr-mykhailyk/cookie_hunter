@@ -10,4 +10,9 @@ class Stockpile < ActiveRecord::Base
     save
   end
 
+  def remove
+    self.cookies -= 1
+    save
+  end
+
 end

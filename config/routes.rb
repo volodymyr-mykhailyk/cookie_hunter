@@ -9,6 +9,7 @@ CookieHunter::Application.routes.draw do
   resource :hunting, only: :show
   resource :stockpile, only: [] do
     get :add
+    get :steal
   end
 
   # Example of regular route:

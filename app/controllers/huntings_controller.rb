@@ -3,7 +3,9 @@ class HuntingsController < ApplicationController
 
 
   def show
-    @hunter
+    all_hunters = Hunter.all.to_a
+    all_hunters.delete(@hunter)
+    @hunters = all_hunters
   end
 
 end

@@ -1,8 +1,7 @@
 class window.Cookies
   constructor: (@$div) ->
     @$link = $('#add_cookie_link')
-    @href = @$link.attr('href')
-    @$link.attr('href', '#')
+    @url = @$link.attr('data-url')
     @init()
 
   init: ->
@@ -12,7 +11,7 @@ class window.Cookies
 
   send_request: ->
     rand = Math.random()
-    $.getJSON @href, {rand: "#{rand}"}, (data) =>
+    $.getJSON @url, {rand: "#{rand}"}, (data) =>
       if data['result'] == 'success' then @success(data) else @error(data)
 
   success: (data) ->
