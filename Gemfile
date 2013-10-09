@@ -14,6 +14,8 @@ gem 'jbuilder', '~> 1.2'
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
 gem 'therubyracer'
+gem 'eventmachine'
+gem 'puma'
 
 group :doc do
   gem 'sdoc', require: false
@@ -32,7 +34,6 @@ group :development, :test do
 end
 
 group :production do
-  gem 'puma'
   gem 'rails_12factor'
   gem 'newrelic_rpm'
 end
