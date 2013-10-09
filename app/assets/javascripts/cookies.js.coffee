@@ -11,7 +11,8 @@ class window.Cookies
       @send_request()
 
   send_request: ->
-    $.get @href, '', (data) =>
+    rand = Math.random()
+    $.getJSON @href, {rand: "#{rand}"}, (data) =>
       if data['result'] == 'success' then @success(data) else @error(data)
 
   success: (data) ->
