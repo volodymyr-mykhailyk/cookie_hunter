@@ -14,6 +14,7 @@ gem 'jbuilder', '~> 1.2'
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
 gem 'therubyracer'
+gem 'puma'
 
 group :doc do
   gem 'sdoc', require: false
