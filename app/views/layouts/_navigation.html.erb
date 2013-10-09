@@ -1,0 +1,21 @@
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="/">Cookie Hunter</a>
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li><%= link_to "Hunt!!!", hunting_path %></li>
+          <li><%= link_to "Sign In", new_hunter_session_path %></li>
+          <li><%= link_to "Sign Out", destroy_hunter_session_path, method: :delete %></li>
+          <li><%= link_to "Sign up", new_hunter_registration_path %></li>
+          <li><%= link_to "About" %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

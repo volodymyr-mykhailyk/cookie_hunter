@@ -6,6 +6,11 @@ CookieHunter::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root :to => "home#index"
 
+  resource :hunting, only: :show
+  resource :stockpile, only: [] do
+    get :add
+  end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
