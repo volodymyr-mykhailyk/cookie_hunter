@@ -6,7 +6,6 @@ feature 'Hunting' do
     visit hunting_path
   end
 
-
   describe 'Click to add cookie' do
     before do
       click_on 'add_cookie_link'
@@ -24,15 +23,16 @@ feature 'Hunting' do
   describe 'Steal cookie from another user' do
     before do
       @hunter1 = create(:hunter, cookies: 1)
-      click_on 'get_bucket_link'
+      visit hunting_path
+      click_on "steal_form_hunter_#{ @hunter1.id}"
     end
 
     it 'should add cookie' do
-      expect(@hunter.reload.cookies).to eq(1)
+      expect(@hunter1.reload.cookies).to eq(0)
     end
 
     it 'should remove cookie from steal_bucket' do
-      expect(StealBucket.instance.cookies).to eq(0)
+      expect(StealBucket.instance.cookies).to eq(1)
     end
 
     it 'should redirect to correct path' do
