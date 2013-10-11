@@ -28,4 +28,6 @@ CookieHunter::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+
+  config.redis_url = config.database_configuration[Rails.env]['redis_url']
 end
