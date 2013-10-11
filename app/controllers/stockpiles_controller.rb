@@ -15,10 +15,12 @@ class StockpilesController < ApplicationController
   def steal
     hunter = Hunter.find(params[:hunter_id])
     hunter.stockpile.remove
-    StealBucket.instance.add
+    steal_bucket = StealBucket.instance
+    steal_bucket.add
     respond_to do |format|
       format.json do
-        render json: { result: :success, cookies: hunter.cookies }
+        render json: { result: :success, cookies: hunter.cookies,
+                       steal_bucket_cookies: steal_bucket.cookies}
       end
       format.html { redirect_to hunting_path }
     end

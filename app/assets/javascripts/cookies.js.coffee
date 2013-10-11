@@ -8,11 +8,11 @@ class window.Cookies
   init: ->
     @$link.on 'click', (e) =>
       e.preventDefault()
-      @send_request()
+      @send_request(@url)
 
-  send_request: ->
+  send_request: (url) ->
     rand = Math.random()
-    $.getJSON @url, {rand: "#{rand}"}, (data) =>
+    $.getJSON url, {rand: "#{rand}"}, (data) =>
       if data['result'] == 'success' then @success(data) else @error(data)
 
   success: (data) ->
@@ -24,8 +24,6 @@ class window.Cookies
   error: (data) ->
     console.log 'Error'
     console.log data
-
-
 
 $ ->
   window.cookies = new window.Cookies($('#cookies_div'))

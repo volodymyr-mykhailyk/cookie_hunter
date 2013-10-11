@@ -24,6 +24,8 @@ class window.Hunter
 
   success: (data) ->
     @update_count(data['cookies'])
+    if data['steal_bucket_cookies']
+      window.steal_bucket.update_count(data['steal_bucket_cookies'])
 
   update_count: (count) ->
     @$link.html("#{@email} (#{count})")
@@ -33,4 +35,4 @@ class window.Hunter
     console.log data
 
 $ ->
-  window.cookies = new window.Hunter.init($('#hunters_div'))
+  window.hunters = new window.Hunter.init($('#hunters_div'))
