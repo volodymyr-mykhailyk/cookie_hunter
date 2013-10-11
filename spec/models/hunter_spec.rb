@@ -1,5 +1,13 @@
 require 'spec_helper'
 
 describe Hunter do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'Factory' do
+    before do
+      @hunter = create(:hunter)
+    end
+
+    it 'should add cookies to stockpile' do
+      expect(@hunter.cookies).to be > 0
+    end
+  end
 end

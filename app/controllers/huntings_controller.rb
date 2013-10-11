@@ -6,6 +6,7 @@ class HuntingsController < ApplicationController
     all_hunters = Hunter.all.to_a
     all_hunters.delete(@hunter)
     @hunters = all_hunters
+    @steal_bucket = StealBucket.instance
   end
 
 end

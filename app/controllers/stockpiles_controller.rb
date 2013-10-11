@@ -17,7 +17,7 @@ class StockpilesController < ApplicationController
     hunter.stockpile.remove
     respond_to do |format|
       format.json do
-        render json: { result: :success, cookies: @hunter.cookies }
+        render json: { result: :success, cookies: hunter.cookies }
       end
       format.html { redirect_to hunting_path }
     end

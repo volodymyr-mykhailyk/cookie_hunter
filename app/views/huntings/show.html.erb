@@ -6,7 +6,8 @@
       <%= link_to "Cookies: #{@hunter.cookies}", add_stockpile_path,
                   class: 'btn btn-success btn-large', id: 'add_cookie_link' %>
     </div>
-    <div>Text2</div>
+    <div><%= link_to "StealBucket: #{@steal_bucket.cookies}", get_bucket_path,
+                     class: 'btn btn-success btn-large', id: 'get_bucket_link' %></div>
     <div>Text3</div>
   </div>
 
@@ -17,8 +18,9 @@
       <ul>
         <% @hunters.each do |hunter| %>
             <li class='hunter <%= "hunter_#{hunter.id}" %>'>
-              <%= link_to "#{hunter.email} (#{hunter.cookies})", steal_stockpile_path(user_id: hunter.id),
+              <%= link_to "#{hunter.email} (#{hunter.cookies})", steal_stockpile_path(hunter_id: hunter.id),
                             class: 'btn btn-success btn-large hunter_link',
+                            id: "steal_form_hunter_#{hunter.id}",
                             data: { id: hunter.id, email: hunter.email } %>
             </li>
         <% end %>

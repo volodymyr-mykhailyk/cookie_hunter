@@ -7,6 +7,11 @@ class window.Hunter
     @email = @$link.attr('data-email')
     @init()
 
+  @init = (@$div) =>
+    window.Hunter.hunters = []
+    $.each $('li.hunter'), (i, li) =>
+      window.Hunter.hunters.push(new Hunter($(li)))
+
   init: ->
     @$link.on 'click', (e) =>
       e.preventDefault()
@@ -26,14 +31,6 @@ class window.Hunter
   error: (data) ->
     console.log 'Error'
     console.log data
-
-
-
-window.Hunter.init = (@$div) =>
-  window.Hunter.hunters = []
-  $.each $('li.hunter'), (i, li) =>
-    window.Hunter.hunters.push(new Hunter($(li)))
-    true
 
 $ ->
   window.cookies = new window.Hunter.init($('#hunters_div'))
