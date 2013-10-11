@@ -4,13 +4,23 @@ class StockpilesController < ApplicationController
   def add
     stockpile = @hunter.stockpile
     stockpile.add
-    render json: { result: :success, cookies: stockpile.cookies }
+    respond_to do |format|
+      format.json do
+        render json: { result: :success, cookies: @hunter.cookies }
+      end
+      format.html { redirect_to hunting_path }
+    end
   end
 
   def steal
     hunter = Hunter.find(params[:hunter_id])
     hunter.stockpile.remove
-    render json: { result: :success, cookies: hunter.stockpile.cookies }
+    respond_to do |format|
+      format.json do
+        render json: { result: :success, cookies: @hunter.cookies }
+      end
+      format.html { redirect_to hunting_path }
+    end
   end
 
 

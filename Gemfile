@@ -16,6 +16,7 @@ gem 'twitter-bootstrap-rails'
 gem 'therubyracer'
 gem 'eventmachine'
 gem 'puma'
+gem 'sidekiq'
 
 group :doc do
   gem 'sdoc', require: false
@@ -27,10 +28,16 @@ group :development, :test do
   gem 'eventmachine'
   gem 'em-http-request'
   gem 'database_cleaner'
+end
+
+group :test do
+  gem 'spork'
+  gem 'database_cleaner'
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'capybara-webkit'
-  gem 'database_cleaner'
+  gem 'launchy'
+  gem 'selenium-webdriver'
 end
 
 group :production do

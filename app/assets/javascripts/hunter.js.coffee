@@ -1,7 +1,8 @@
 class window.Hunter
   constructor: (@$li) ->
     @$link = @$li.find('a.hunter_link').first()
-    @url = @$link.attr('data-url')
+    @url = @$link.attr('href')
+    @$link.attr('href', '#')
     @id = @$link.attr('data-id')
     @email = @$link.attr('data-email')
     @init()

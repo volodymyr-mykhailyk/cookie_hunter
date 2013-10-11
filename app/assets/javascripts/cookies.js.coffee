@@ -1,7 +1,8 @@
 class window.Cookies
   constructor: (@$div) ->
     @$link = $('#add_cookie_link')
-    @url = @$link.attr('data-url')
+    @url = @$link.attr('href')
+    @$link.attr('href', '#')
     @init()
 
   init: ->
