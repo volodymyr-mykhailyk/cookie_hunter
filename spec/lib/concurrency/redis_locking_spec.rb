@@ -8,6 +8,11 @@ describe Concurrency::RedisLocking do
     REDIS.set('counter', 0)
   end
 
+  after do
+    return_lock(lock_key('tester_function'))
+  end
+
+
   def get_counter
     REDIS.get('counter').to_i
   end
@@ -34,6 +39,17 @@ describe Concurrency::RedisLocking do
 
   it 'should execute 2 increases in sequence with timeout' do
     expect { tester_function(1) }.to change { get_counter }.by(1)
+    expect { tester_function }.to change { get_counter }.by(1)
+  end
+
+  it 'should skip one call if lock corrupted' do
+    REDIS.set(lock_key('tester_function'), 'blabla')
+    expect { tester_function }.to_not change { get_counter }
+    expect { tester_function }.to change { get_counter }.by(1)
+  end
+
+  it 'should work if previous call throwed execption' do
+    expect { lock('tester_function') { raise 'eeee' } }.to raise_error
     expect { tester_function }.to change { get_counter }.by(1)
   end
 
