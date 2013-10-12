@@ -29,5 +29,5 @@ CookieHunter::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
-  ENV["REDISTOGO_URL"] = 'redis://localhost:6379'
+  config.redis_url = config.database_configuration[Rails.env]['redis_url']
 end
