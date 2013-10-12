@@ -15,5 +15,7 @@
 /log/*.log
 /tmp
 .rvmrc
+.ruby-gemset
+.ruby-version
 .idea
 config/database.yml
