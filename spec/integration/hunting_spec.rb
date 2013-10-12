@@ -43,7 +43,7 @@ feature 'Hunting' do
   describe 'Click on steal_bucket' do
     before do
       StealBucket.instance.add
-      click_on 'get_bucket_link'
+      click_on 'get_steal_bucket_link'
     end
 
     it 'should add cookie' do
