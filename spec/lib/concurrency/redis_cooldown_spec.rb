@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'concurrency/redis_common'
-require 'concurrency/redis_cooldown'
 
 describe Concurrency::RedisCooldown do
   include Concurrency::RedisCooldown

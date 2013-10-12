@@ -22,22 +22,28 @@ Spork.prefork do
   require 'sidekiq/testing'
 
 
-
   Capybara.server_port = 31337
   Capybara.default_wait_time = 10
   Capybara.javascript_driver = :chrome
 
   # Requires supporting ruby files with custom matchers and macros, etc,
   # in spec/support/ and its subdirectories.
-  Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+  Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
   RSpec.configure do |config|
-    DatabaseCleaner.clean_with(:truncation)
     config.use_transactional_fixtures = false
     config.infer_base_class_for_anonymous_controllers = false
     config.include FactoryGirl::Syntax::Methods
     config.render_views
     config.include Devise::TestHelpers, type: :controller
+
+    #we are doing some nasty things with processes. and connection could be corrupted sometimes
+    config.before(:each) { ActiveRecord::Base.connection.reconnect! }
+
+    #cleaning
+    DatabaseCleaner.clean_with(:truncation)
+    config.before(:each) { DatabaseCleaner.start }
+    config.after(:each) { DatabaseCleaner.clean }
   end
 end
 

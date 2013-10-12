@@ -1,18 +1,8 @@
 class Stockpile < ActiveRecord::Base
+  include Cookable
 
   belongs_to :hunter
 
-  validates_numericality_of :cookies, :regeneration, greater_than_or_equal_to: 0
-
-
-  def add
-    self.cookies += 1
-    save
-  end
-
-  def remove
-    self.cookies -= 1
-    save
-  end
+  validates_numericality_of :regeneration, greater_than_or_equal_to: 0
 
 end

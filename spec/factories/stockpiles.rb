@@ -2,8 +2,9 @@
 
 FactoryGirl.define do
   factory :stockpile do
-    hunter_id 1
+    hunter
+
     cookies 1
-    regeneration 1
+    regeneration 0
   end
 end
