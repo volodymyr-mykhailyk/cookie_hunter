@@ -5,9 +5,13 @@ def single_process(&block)
 end
 
 def several_processes(count = 5, &block)
-  running = count.times.map { fork_process(&block) }
-  running.each { |process_id| Process.waitpid(process_id) }
-  ActiveRecord::Base.connection.reconnect!
+  begin
+    running = count.times.map { fork_process(&block) }
+    running.each { |process_id| Process.waitpid(process_id) }
+    ActiveRecord::Base.connection.reconnect!
+  rescue
+    # ignored
+  end
 end
 
 def fork_process(&block)
@@ -16,4 +20,6 @@ def fork_process(&block)
     ActiveRecord::Base.connection.reconnect!
     block.call
   end
+rescue
+# ignored
 end

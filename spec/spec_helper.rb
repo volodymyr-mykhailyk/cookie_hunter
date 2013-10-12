@@ -33,7 +33,7 @@ Spork.prefork do
 
   RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
-    config.use_transactional_fixtures = true
+    config.use_transactional_fixtures = false
     config.infer_base_class_for_anonymous_controllers = false
     config.include FactoryGirl::Syntax::Methods
     config.render_views
