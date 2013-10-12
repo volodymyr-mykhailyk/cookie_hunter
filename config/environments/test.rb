@@ -34,5 +34,5 @@ CookieHunter::Application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
-  config.redis_url = config.database_configuration[Rails.env]['redis_url']
+  ENV["REDISTOGO_URL"] = 'redis://localhost:6379'
 end
