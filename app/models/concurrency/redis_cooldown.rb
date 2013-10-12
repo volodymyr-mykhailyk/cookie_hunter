@@ -1,5 +1,5 @@
 module Concurrency::RedisCooldown
-  include RedisCommon
+  include Concurrency::RedisCommon
 
   def cooldown(name, cooldown_time = 1)
     return verify_lock(lock_key(name)) unless obtain_cooldown(lock_key(name), cooldown_time)
