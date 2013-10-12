@@ -6,18 +6,18 @@ module Cookable
   end
 
   def add(amount = 1)
-    change(:cookies, amount)
+    change_cookies(amount)
   end
 
   def remove(amount = 1)
-    change(:cookies, -amount)
+    change_cookies(-amount)
   end
 
   protected
-  def change(attribute, amount, options = {})
+  def change_cookies(amount, options = {})
     lock_success = change_lock_strategy.perform(options) do
-      self[attribute] += amount
       Cookable.change_testing_hook
+      self.cookies += amount
       save
     end
 

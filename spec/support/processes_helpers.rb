@@ -10,6 +10,7 @@ def several_processes(count = 5, &block)
     running.each { |process_id| Process.waitpid(process_id) }
     ActiveRecord::Base.connection.reconnect!
   rescue
+    ActiveRecord::Base.connection.reconnect!
     # ignored
   end
 end
