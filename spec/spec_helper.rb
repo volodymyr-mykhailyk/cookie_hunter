@@ -37,9 +37,6 @@ Spork.prefork do
     config.render_views
     config.include Devise::TestHelpers, type: :controller
 
-    #we are doing some nasty things with processes. and connection could be corrupted sometimes
-    config.before(:each) { ActiveRecord::Base.connection.reconnect! }
-
     #cleaning
     DatabaseCleaner.strategy = :truncation
     config.before(:each) { DatabaseCleaner.start }

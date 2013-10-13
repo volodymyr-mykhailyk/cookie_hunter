@@ -1,27 +1,30 @@
-def single_process(&block)
-  ActiveRecord::Base.connection.disconnect!
-  process_id = fork_process(&block)
-  Process.waitpid process_id
-  puts ActiveRecord::Base.connection.active?
-  ActiveRecord::Base.connection.reconnect!
-end
-
-def several_processes(count = 5, &block)
-  begin
-    running = count.times.map { fork_process(&block) }
-    running.each { |process_id| Process.waitpid(process_id) }
-    ActiveRecord::Base.connection.reconnect!
-  rescue
-    ActiveRecord::Base.connection.reconnect!
-    # ignored
+def single_process(*args, &block)
+  with_reconnect do
+    process_id = fork_process(*args, &block)
+    Process.waitpid process_id
   end
 end
 
-def fork_process(&block)
+def several_processes(arguments = 4.times.map, &block)
+  with_reconnect do
+    running = arguments.map { |args| sleep(0.01); fork_process(args, &block) }
+    running.each { |process_id| Process.waitpid(process_id) }
+  end
+end
+
+def fork_process(*args, &block)
   fork do
+    with_reconnect(*args, &block)
+  end
+end
+
+def with_reconnect(*args, &block)
+  begin
     REDIS.client.reconnect
-    ActiveRecord::Base.connection.reconnect!
-    block.call
-    ActiveRecord::Base.connection.disconnect!
+    spec       = Rails.application.config.database_configuration[Rails.env]
+    ActiveRecord::Base.establish_connection(spec)
+    yield(*args)
+  ensure
+    ActiveRecord::Base.connection.close
   end
 end
