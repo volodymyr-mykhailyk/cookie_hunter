@@ -13,9 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20131011152205) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "buckets", force: true do |t|
     t.integer  "cookies",    limit: 8, default: 0
     t.string   "type"
