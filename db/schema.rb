@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131011152205) do
+ActiveRecord::Schema.define(version: 20131013181003) do
+
+  create_table "bonus", force: true do |t|
+    t.string   "type",                     null: false
+    t.integer  "regeneration", default: 0, null: false
+    t.integer  "stockpile_id",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "bonus", ["stockpile_id"], name: "index_bonus_on_stockpile_id", using: :btree
 
   create_table "buckets", force: true do |t|
     t.integer  "cookies",    limit: 8, default: 0
