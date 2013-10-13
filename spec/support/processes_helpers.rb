@@ -1,6 +1,8 @@
 def single_process(&block)
+  ActiveRecord::Base.connection.disconnect!
   process_id = fork_process(&block)
   Process.waitpid process_id
+  puts ActiveRecord::Base.connection.active?
   ActiveRecord::Base.connection.reconnect!
 end
 
@@ -20,7 +22,6 @@ def fork_process(&block)
     REDIS.client.reconnect
     ActiveRecord::Base.connection.reconnect!
     block.call
+    ActiveRecord::Base.connection.disconnect!
   end
-rescue
-# ignored
 end

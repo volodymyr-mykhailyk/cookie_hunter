@@ -7,7 +7,16 @@ describe Concurrency::LockStrategies::Plain do
   end
 
   def perform_change(amount)
-    @bucket.add(amount)
+    Bucket.find_by_id(@bucket.id).add(amount)
+  end
+
+  it 'should succed single request in separate thread' do
+    expect { single_thread { perform_change(2) } }.to change_model(@bucket, :cookies).by(2)
+  end
+
+  it 'should succed single request in separate process' do
+    pending 'problems with AR connection after process call'
+    expect { single_process { perform_change(2) } }.to change_model(@bucket, :cookies).by(2)
   end
 
   it 'should change cookies with current strategy' do
@@ -21,8 +30,7 @@ describe Concurrency::LockStrategies::Plain do
   end
 
   it 'should not be thread safe' do
-    pending 'something wierd with postgress transactions'
-    several_threads { perform_change(3) }
-    expect(@bucket.reload.cookies).to be > 101
+    Cookable.stub(:change_testing_hook).and_return { sleep(1) }
+    expect { several_threads([1, 2, 3]) { |amount| perform_change(amount) } }.to change_model(@bucket, :cookies).by(3)
   end
 end

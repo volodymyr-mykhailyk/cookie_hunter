@@ -41,7 +41,7 @@ Spork.prefork do
     config.before(:each) { ActiveRecord::Base.connection.reconnect! }
 
     #cleaning
-    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.strategy = :truncation
     config.before(:each) { DatabaseCleaner.start }
     config.after(:each) { DatabaseCleaner.clean }
   end
@@ -54,18 +54,3 @@ Spork.each_run do
 end
 
 
-unless Spork.using_spork?
-#Capybara use the same connection
-  class ActiveRecord::Base
-    mattr_accessor :shared_connection
-    @@shared_connection = nil
-
-    def self.connection
-      @@shared_connection || retrieve_connection
-    end
-  end
-
-# Forces all threads to share the same connection. This works on
-# Capybara because it starts the web server in a thread.
-  ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
-end
