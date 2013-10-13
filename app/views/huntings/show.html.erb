@@ -19,9 +19,9 @@
         <% @hunters.each do |hunter| %>
             <li class='hunter <%= "hunter_#{hunter.id}" %>'>
               <%= link_to "#{hunter.email} (#{hunter.cookies})", steal_stockpile_path(hunter_id: hunter.id),
-                            class: 'btn btn-success btn-large hunter_link',
-                            id: "steal_form_hunter_#{hunter.id}",
-                            data: { id: hunter.id, email: hunter.email } %>
+                          class: 'btn btn-success btn-large hunter_link',
+                          id: "steal_form_hunter_#{hunter.id}",
+                          data: { id: hunter.id, email: hunter.email } %>
             </li>
         <% end %>
       </ul>
@@ -30,9 +30,21 @@
 
   <div class='span4'>
     <h3>Bonuses</h3>
-    <p>Text</p>
-    <div>Text1</div>
-    <div>Text2</div>
+    <div>
+      <h4>Active Bonuses</h4>
+      <% @bonuses.each do |bonus| %>
+          <p><%= "#{bonus.name}: #{bonus.regeneration}" %></p>
+      <% end %>
+    </div>
+    <div>
+      <h4>Available bonuses</h4>
+      <% @available_bonuses.each do |bonus| %>
+          <%= link_to "#{bonus.name} (+#{bonus.regeneration}): Price-#{bonus.price}",
+                      buy_bonuses_path(type: bonus.class),
+                      class: "btn btn-success btn-large bonus_#{bonus.class}"
+          %>
+      <% end %>
+    </div>
   </div>
 
 </div>

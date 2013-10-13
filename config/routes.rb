@@ -14,6 +14,10 @@ CookieHunter::Application.routes.draw do
   resource :bucket, only: [] do
     get :get
   end
+  resource :bonuses, only: [] do
+    get :buy
+end
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
