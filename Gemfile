@@ -28,7 +28,7 @@ group :development, :test do
   gem 'eventmachine'
   gem 'em-http-request'
   gem 'database_cleaner'
-  #gem 'quiet_assets'
+  gem 'quiet_assets'
 end
 
 group :test do
