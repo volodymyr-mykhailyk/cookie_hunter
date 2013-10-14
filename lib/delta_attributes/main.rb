@@ -1,4 +1,4 @@
-require 'delta_attributes/bind_visitor'
+require 'delta_attributes/to_sql'
 require 'delta_attributes/persistence'
 
 module ActiveRecord
