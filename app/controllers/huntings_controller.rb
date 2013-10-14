@@ -7,7 +7,7 @@ class HuntingsController < ApplicationController
     all_hunters.delete(@hunter)
     @hunters = all_hunters
     @steal_bucket = StealBucket.instance
-    @bonuses = @hunter.bonuses
+    @categorized_bonuses = @hunter.categorized_bonuses
     @available_bonuses = Bonus.get_available_bonuses(@hunter.cookies)
   end
 

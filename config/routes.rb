@@ -16,7 +16,9 @@ CookieHunter::Application.routes.draw do
   end
   resource :bonuses, only: [] do
     get :buy
-end
+  end
+  resource :cookies, only: [:show]
+
 
 
   # Example of regular route:
@@ -53,7 +55,7 @@ end
   #       get 'recent', on: :collection
   #     end
   #   end
-  
+
   # Example resource route with concerns:
   #   concern :toggleable do
   #     post 'toggle'

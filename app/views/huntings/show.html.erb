@@ -1,15 +1,7 @@
 <div class='row'>
   <div class='span4' id='cookies_div'>
-    <h3>Cookies</h3>
-    <p>Text</p>
-    <div>
-      <%= link_to "Cookies: #{@hunter.cookies}", add_stockpile_path,
-                  class: 'btn btn-success btn-large', id: 'add_cookie_link' %>
+<%= render 'cookies_div' %>
     </div>
-    <div><%= link_to "StealBucket: #{@steal_bucket.cookies}", get_bucket_path,
-                     class: 'btn btn-success btn-large', id: 'get_steal_bucket_link' %></div>
-    <div>Text3</div>
-  </div>
 
   <div class='span4' id='hunters_div'>
     <h3>Users</h3>
@@ -32,14 +24,14 @@
     <h3>Bonuses</h3>
     <div>
       <h4>Active Bonuses</h4>
-      <% @bonuses.each do |bonus| %>
-          <p><%= "#{bonus.name}: #{bonus.regeneration}" %></p>
+      <% @categorized_bonuses.each do |bonus, count| %>
+          <p><%= "#{bonus.name}: #{bonus.regeneration_rate} * #{count}" %></p>
       <% end %>
     </div>
     <div>
       <h4>Available bonuses</h4>
       <% @available_bonuses.each do |bonus| %>
-          <%= link_to "#{bonus.name} (+#{bonus.regeneration}): Price-#{bonus.price}",
+          <%= link_to "#{bonus.name} (+#{bonus.regeneration_rate}): Price: #{bonus.price}",
                       buy_bonuses_path(type: bonus.class),
                       class: "btn btn-success btn-large bonus_#{bonus.class}"
           %>

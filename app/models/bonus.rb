@@ -1,6 +1,6 @@
 class Bonus < ActiveRecord::Base
 
-  TYPES = [ClickBonus]
+  TYPES = [ClickBonus, GrandMotherBonus]
   validates :type, :regeneration, :stockpile_id, presence: true
 
   belongs_to :stockpile
@@ -8,6 +8,11 @@ class Bonus < ActiveRecord::Base
   delegate :recalculate_regeneration, to: :stockpile
 
   after_create :recalculate_regeneration
+  before_validation :set_regeneration
+
+  def set_regeneration
+    self.regeneration = self.class::REGENERATION
+  end
 
   def name
     self.class::NAME
@@ -17,8 +22,8 @@ class Bonus < ActiveRecord::Base
     self.class::PRICE
   end
 
-  def regeneration
-    super || self.class::REGENERATION
+  def regeneration_rate
+    self.class::REGENERATION
   end
 
   class << self
