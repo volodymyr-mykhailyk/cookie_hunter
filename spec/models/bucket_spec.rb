@@ -1,5 +1,8 @@
 require 'spec_helper'
 
 describe Bucket do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'factory' do
+    let(:bucket) { create(:bucket, cookies: 10)}
+    it { expect(bucket.new_record?).to be_false}
+  end
 end

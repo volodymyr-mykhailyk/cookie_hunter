@@ -19,14 +19,18 @@ describe 'main' do
   describe 'Arel monkey patching' do
     before do
       @bucket = create(:bucket)
-    end
-
-    it 'should ' do
       @bucket.cookies += 2
       @bucket.cookies *= 5
-      Rails.logger.should_receive(:debug).with(/\"cookies\" = \"cookies\" \+ \$1/)
+    end
+
+    it 'should set cookies' do
       @bucket.save
       expect(@bucket.reload.cookies).to eql(10)
+    end
+
+    it 'should check log' do
+      Rails.logger.should_receive(:debug).with(/\"cookies\" = \"cookies\" \+ \$1/)
+      @bucket.save
     end
 
   end

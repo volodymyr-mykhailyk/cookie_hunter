@@ -23,8 +23,7 @@ module ActiveRecord
     #    klass.connection.update stmt, 'SQL', db_columns_with_values
     #  end
     #end
-
-
+    #
     def update_record(attribute_names = @attributes.keys)
       attributes_with_values = arel_attributes_with_values_for_update(attribute_names)
       if attributes_with_values.empty?
