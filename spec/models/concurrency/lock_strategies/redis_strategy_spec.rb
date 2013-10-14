@@ -26,11 +26,15 @@ describe Concurrency::LockStrategies::Redis do
 
   it 'should be thread safe and execute only first locked call' do
     Cookable.stub(:change_testing_hook).and_return { sleep(0.5) }
-    expect { several_threads([1, 2, 3]) { |amount| perform_change(amount) } }.to change_model(@bucket, :cookies).by(1)
+    expect {
+      several_threads([1, 2, 3]) { |amount| perform_change(amount) }
+    }.to change_model(@bucket, :cookies).by(1)
   end
 
   it 'should be process safe and execute only first locked call' do
     Cookable.stub(:change_testing_hook).and_return { sleep(0.5) }
-    expect { several_processes([1, 2, 3]) { |amount| perform_change(amount) } }.to change_model(@bucket, :cookies).by(1)
+    expect {
+      several_processes([1, 2, 3]) { |amount| perform_change(amount) }
+    }.to change_model(@bucket, :cookies).by(1)
   end
 end

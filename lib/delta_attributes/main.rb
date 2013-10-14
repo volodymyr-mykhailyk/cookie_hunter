@@ -27,6 +27,7 @@ module ActiveRecord
           @_delta_attributes.add(attribute.to_s)
         end
       end
+
     end
   end
 
