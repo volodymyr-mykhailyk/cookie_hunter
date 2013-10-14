@@ -3,7 +3,7 @@ module Cookable
 
   included do
     validates_numericality_of :cookies, greater_than_or_equal_to: 0
-    #delta_attributes :cookies
+    delta_attributes :cookies
   end
 
   def add(amount = 1)
