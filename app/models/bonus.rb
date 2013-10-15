@@ -26,9 +26,14 @@ class Bonus < ActiveRecord::Base
     self.class::REGENERATION
   end
 
+  def to_hash
+    { name: name, price: price, regeneration: regeneration_rate, class: self.class.name }
+  end
+
   class << self
     def get_available_bonuses(cookies)
-      TYPES.select { |type| type::PRICE <= cookies}.map(&:new)
+      instances = TYPES.select { |type| type::PRICE <= cookies}.map(&:new)
+      instances.map!{ |bonus| bonus.to_hash }
     end
   end
 end

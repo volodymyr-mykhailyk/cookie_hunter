@@ -1,0 +1,14 @@
+<h3>Users</h3>
+<p>Text</p>
+<div>
+  <ul class='hunter_list'>
+    <% @hunting.hunters.each do |hunter| %>
+        <li class='hunter <%= "hunter_#{hunter[:id]}" %>'>
+          <%= link_to "#{hunter[:email]} (#{hunter[:cookies]})", steal_stockpile_path(hunter_id: hunter[:id]),
+                      class: 'btn btn-success btn-large hunter_link',
+                      id: "steal_from_hunter_#{hunter[:id]}",
+                      data: { id: hunter[:id], email: hunter[:email] } %>
+        </li>
+    <% end %>
+  </ul>
+</div>

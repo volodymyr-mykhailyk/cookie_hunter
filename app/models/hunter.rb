@@ -4,7 +4,7 @@ class Hunter < ActiveRecord::Base
 
   has_one :stockpile, dependent: :destroy
   delegate :cookies, to: :stockpile
-  delegate :categorized_bonuses, to: :stockpile
+  delegate :active_bonuses, to: :stockpile
   has_many :bonuses, through: :stockpile
 
 

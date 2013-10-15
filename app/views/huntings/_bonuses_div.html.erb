@@ -1,0 +1,20 @@
+<h3>Bonuses</h3>
+<div class='active_bonuses'>
+  <h4>Active Bonuses</h4>
+  <% @hunting.active_bonuses.each do |bonus| %>
+      <div class='active_bonus'>
+        <p><%= "#{bonus[:name]}: #{bonus[:regeneration]} * #{bonus[:count]}" %></p>
+      </div>
+  <% end %>
+</div>
+<div class='available_bonuses'>
+  <h4>Available bonuses</h4>
+  <% @hunting.available_bonuses.each do |bonus| %>
+      <div class='available_bonus'>
+        <%= link_to "#{bonus[:name]} (+#{bonus[:regeneration]}): Price: #{bonus[:price]}",
+                    buy_bonuses_path(type: bonus[:class]),
+                    class: "btn btn-success btn-large bonus_#{bonus[:class]}"
+        %>
+      </div>
+  <% end %>
+</div>

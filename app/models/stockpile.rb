@@ -22,13 +22,11 @@ class Stockpile < ActiveRecord::Base
     end
   end
 
-  def categorized_bonuses
-    hash = {}
+  def active_bonuses
     Bonus::TYPES.map do |type|
       count = type.where(stockpile: self).count
-      hash.merge!(type.new => count) if count > 0
-    end
-    hash
+      type.new.to_hash.merge(:count => count) if count > 0
+    end.compact
   end
 
   def recalculate_regeneration

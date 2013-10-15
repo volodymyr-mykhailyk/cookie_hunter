@@ -1,42 +1,20 @@
-<div class='row'>
+<div class='row' id='hunting'>
   <div class='span4' id='cookies_div'>
-<%= render 'cookies_div' %>
-    </div>
-
-  <div class='span4' id='hunters_div'>
-    <h3>Users</h3>
-    <p>Text</p>
-    <div>
-      <ul>
-        <% @hunters.each do |hunter| %>
-            <li class='hunter <%= "hunter_#{hunter.id}" %>'>
-              <%= link_to "#{hunter.email} (#{hunter.cookies})", steal_stockpile_path(hunter_id: hunter.id),
-                          class: 'btn btn-success btn-large hunter_link',
-                          id: "steal_form_hunter_#{hunter.id}",
-                          data: { id: hunter.id, email: hunter.email } %>
-            </li>
-        <% end %>
-      </ul>
-    </div>
+    <%= render 'cookies_div' %>
   </div>
 
-  <div class='span4'>
-    <h3>Bonuses</h3>
-    <div>
-      <h4>Active Bonuses</h4>
-      <% @categorized_bonuses.each do |bonus, count| %>
-          <p><%= "#{bonus.name}: #{bonus.regeneration_rate} * #{count}" %></p>
-      <% end %>
-    </div>
-    <div>
-      <h4>Available bonuses</h4>
-      <% @available_bonuses.each do |bonus| %>
-          <%= link_to "#{bonus.name} (+#{bonus.regeneration_rate}): Price: #{bonus.price}",
-                      buy_bonuses_path(type: bonus.class),
-                      class: "btn btn-success btn-large bonus_#{bonus.class}"
-          %>
-      <% end %>
-    </div>
+  <div class='span4' id='hunters_div'>
+    <%= render 'hunters_div' %>
+  </div>
+
+  <div class='span4' id='bonuses_div'>
+    <%= render 'bonuses_div' %>
   </div>
 
 </div>
+
+<script type='text/javascript'>
+    $(function(){
+        window.hunting = new window.Hunting($('#hunting_div'))
+    })
+</script>

@@ -1,5 +1,5 @@
 class window.Hunter
-  constructor: (@$li) ->
+  constructor: (@hunting, @$li) ->
     @$link = @$li.find('a.hunter_link').first()
     @url = @$link.attr('href')
     @$link.attr('href', '#')
@@ -7,10 +7,12 @@ class window.Hunter
     @email = @$link.attr('data-email')
     @init()
 
-  @init = (@$div) =>
-    window.Hunter.hunters = []
+  @init = (hunting, @$div) =>
+    window.Hunter.hunters = {}
     $.each $('li.hunter'), (i, li) =>
-      window.Hunter.hunters.push(new Hunter($(li)))
+      hunter = new Hunter(hunting, $(li))
+      window.Hunter.hunters[hunter.id] = hunter
+    window.Hunter.hunters
 
   init: ->
     @$link.on 'click', (e) =>
@@ -18,21 +20,12 @@ class window.Hunter
       @send_request()
 
   send_request: ->
-    rand = Math.random()
-    $.getJSON @url, {hunter_id: @id, rand: "#{rand}"}, (data) =>
-      if data['result'] == 'success' then @success(data) else @error(data)
+    timestamp = (new Date).getMilliseconds()
+    $.getJSON @url, {hunter_id: @id, timestamp: "#{timestamp}"}, (data) =>
+      @hunting.success(data)
 
-  success: (data) ->
+  update: (data) ->
     @update_count(data['cookies'])
-    if data['steal_bucket_cookies']
-      window.steal_bucket.update_count(data['steal_bucket_cookies'])
 
   update_count: (count) ->
     @$link.html("#{@email} (#{count})")
-
-  error: (data) ->
-    console.log 'Error'
-    console.log data
-
-$ ->
-  window.hunters = new window.Hunter.init($('#hunters_div'))

@@ -3,12 +3,11 @@ class HuntingsController < ApplicationController
 
 
   def show
-    all_hunters = Hunter.all.to_a
-    all_hunters.delete(@hunter)
-    @hunters = all_hunters
-    @steal_bucket = StealBucket.instance
-    @categorized_bonuses = @hunter.categorized_bonuses
-    @available_bonuses = Bonus.get_available_bonuses(@hunter.cookies)
+    @hunting = Hunting.new(@hunter)
+    respond_to do |format|
+      format.html { render :show }
+      format.json { render json: @hunting.to_json }
+    end
   end
 
 end

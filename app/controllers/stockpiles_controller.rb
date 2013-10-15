@@ -6,7 +6,7 @@ class StockpilesController < ApplicationController
     stockpile.add
     respond_to do |format|
       format.json do
-        render json: { result: :success, cookies: @hunter.cookies }
+        render json: { stockpile: { cookies: @hunter.cookies } }
       end
       format.html { redirect_to hunting_path }
     end
@@ -19,8 +19,10 @@ class StockpilesController < ApplicationController
     steal_bucket.add
     respond_to do |format|
       format.json do
-        render json: { result: :success, cookies: hunter.cookies,
-                       steal_bucket_cookies: steal_bucket.cookies}
+        render json: {
+            hunters: [ { id: hunter.id, cookies: hunter.cookies} ],
+            steal_bucket: { cookies: steal_bucket.cookies }
+        }
       end
       format.html { redirect_to hunting_path }
     end

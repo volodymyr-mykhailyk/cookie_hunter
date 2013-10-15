@@ -1,6 +1,6 @@
-class window.Cookies
+class window.StealBucket
   constructor: (@hunting, @$div) ->
-    @$link = $('#add_cookie_link')
+    @$link = $('#get_steal_bucket_link')
     @url = @$link.attr('href')
     @$link.attr('href', '#')
     @init()
@@ -8,18 +8,17 @@ class window.Cookies
   init: ->
     @$link.on 'click', (e) =>
       e.preventDefault()
-      @send_request(@url)
+      @send_request()
 
   update: (data) ->
     if data['cookies']
       @update_count(data['cookies'])
 
   update_count: (count) ->
-    @$link.html("Cookies: #{count}")
+    @$link.html("StealBucket: #{count}")
 
-  send_request: (url) ->
+  send_request: ->
     timestamp = (new Date).getMilliseconds()
-    $.getJSON url, {timestamp: "#{timestamp}"}, (data) =>
+    $.getJSON @url, {timestamp: "#{timestamp}"}, (data) =>
       @hunting.success(data)
-
 

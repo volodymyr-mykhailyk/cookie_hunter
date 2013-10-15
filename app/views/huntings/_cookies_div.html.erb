@@ -1,9 +1,10 @@
 <h3>Cookies</h3>
-<p>Text</p>
-<div>
-  <%= link_to "Cookies: #{@hunter.cookies}", add_stockpile_path,
+
+<div class='cookies_link'>
+  <%= link_to "Cookies: #{@hunting.hunter.cookies}", add_stockpile_path,
               class: 'btn btn-success btn-large', id: 'add_cookie_link' %>
 </div>
-<div><%= link_to "StealBucket: #{@steal_bucket.cookies}", get_bucket_path,
-                 class: 'btn btn-success btn-large', id: 'get_steal_bucket_link' %></div>
-<div>Text3</div>
+<div class='steal_bucket_link'>
+  <%= link_to "StealBucket: #{@hunting.steal_bucket.cookies}", get_bucket_path,
+                 class: 'btn btn-success btn-large', id: 'get_steal_bucket_link' %>
+</div>

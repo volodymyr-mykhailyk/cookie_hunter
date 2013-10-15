@@ -9,9 +9,10 @@ class BucketsController < ApplicationController
     stockpile.add
     respond_to do |format|
       format.json do
-        render json: { result: :success,
-                       hunter_cookies: @hunter.cookies,
-                       steal_bucket_cookies: steal_bucket.cookies }
+        render json: {
+            stockpile: { cookies: @hunter.cookies },
+            steal_bucket: { cookies: steal_bucket.cookies }
+        }
       end
       format.html { redirect_to hunting_path }
     end
