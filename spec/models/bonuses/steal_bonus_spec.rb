@@ -8,12 +8,12 @@ describe Bonuses::StealBonus do
     it { expect(trick.new_record?).to be_false}
 
     it 'should delegate recalculate_steals' do
-      expect(trick.stockpile.reload.steals).to eq(1)
+      expect(trick.stockpile.reload.steals).to eq(2)
     end
 
     it 'should check click when there are two tricks' do
       create(:trick, stockpile: trick.stockpile)
-      expect(trick.stockpile.reload.steals).to eq(2)
+      expect(trick.stockpile.reload.steals).to eq(3)
     end
 
     it 'should create with only predefined steals' do
@@ -28,12 +28,12 @@ describe Bonuses::StealBonus do
     it { expect(cheat.new_record?).to be_false}
 
     it 'should delegate recalculate_steals' do
-      expect(cheat.stockpile.reload.steals).to eq(5)
+      expect(cheat.stockpile.reload.steals).to eq(6)
     end
 
     it 'should check click when there are two cheats' do
       create(:cheat, stockpile: cheat.stockpile)
-      expect(cheat.stockpile.reload.steals).to eq(10)
+      expect(cheat.stockpile.reload.steals).to eq(11)
     end
 
     it 'should create with only predefined save' do
