@@ -5,3 +5,11 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Stockpile.find_each do |stockpile|
+  stockpile.delete_all_bonuses
+end
+
+Hunter.find_each do |hunter|
+  hunter.send(:create_new_stockpile) unless hunter.stockpile
+end

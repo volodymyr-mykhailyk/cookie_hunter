@@ -15,6 +15,7 @@ module Cookable
   end
 
   protected
+
   def change_cookies(amount, options = {})
     lock_success = change_lock_strategy.perform(options) do
       Cookable.change_testing_hook

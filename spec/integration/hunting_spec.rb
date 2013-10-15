@@ -24,7 +24,7 @@ feature 'Hunting' do
     before do
       @hunter1 = create(:hunter, cookies: 1)
       visit hunting_path
-      click_on "steal_from_hunter_#{ @hunter1.id}"
+      click_on "steal_from_hunter_#{@hunter1.id}"
     end
 
     it 'should add cookie' do

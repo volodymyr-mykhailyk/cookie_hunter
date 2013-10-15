@@ -11,20 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131013181003) do
+ActiveRecord::Schema.define(version: 20131015181545) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "bonus", force: true do |t|
+  create_table "bonuses", force: true do |t|
     t.string   "type",                     null: false
     t.integer  "regeneration", default: 0, null: false
+    t.integer  "clicks",       default: 0, null: false
+    t.integer  "steals",       default: 0, null: false
+    t.integer  "saves",        default: 0, null: false
     t.integer  "stockpile_id",             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "bonus", ["stockpile_id"], name: "index_bonus_on_stockpile_id", using: :btree
+  add_index "bonuses", ["stockpile_id"], name: "index_bonuses_on_stockpile_id", using: :btree
 
   create_table "buckets", force: true do |t|
     t.integer  "cookies",    limit: 8, default: 0
@@ -52,6 +55,9 @@ ActiveRecord::Schema.define(version: 20131013181003) do
     t.integer  "regeneration",           default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "clicks",                 default: 1
+    t.integer  "saves",        limit: 8, default: 0
+    t.integer  "steals",                 default: 1
   end
 
   add_index "stockpiles", ["hunter_id"], name: "index_stockpiles_on_hunter_id", using: :btree

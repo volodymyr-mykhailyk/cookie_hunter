@@ -3,7 +3,7 @@ class StockpilesController < ApplicationController
 
   def add
     stockpile = @hunter.stockpile
-    stockpile.add
+    stockpile.add_what_should
     respond_to do |format|
       format.json do
         render json: { stockpile: { cookies: @hunter.cookies } }
@@ -14,9 +14,9 @@ class StockpilesController < ApplicationController
 
   def steal
     hunter = Hunter.find(params[:hunter_id])
-    hunter.stockpile.remove
+    steal = hunter.stockpile.remove_what_can(@hunter)
     steal_bucket = StealBucket.instance
-    steal_bucket.add
+    steal_bucket.add(-steal)
     respond_to do |format|
       format.json do
         render json: {

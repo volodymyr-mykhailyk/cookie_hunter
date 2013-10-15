@@ -6,5 +6,7 @@ FactoryGirl.define do
 
     cookies 1
     regeneration 0
+    clicks 1
+    saves 0
   end
 end

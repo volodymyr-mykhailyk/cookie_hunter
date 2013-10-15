@@ -10,7 +10,6 @@ class Hunter < ActiveRecord::Base
 
   after_create :create_new_stockpile
 
-
   private
 
   def create_new_stockpile

@@ -1,6 +1,6 @@
 class Hunting
 
-  JSON_ATTRIBUTES = %i(hunter stockpile hunters steal_bucket active_bonuses available_bonuses)
+  JSON_ATTRIBUTES = %i(hunter stockpile hunters steal_bucket active_bonuses all_bonuses)
   attr_reader *JSON_ATTRIBUTES
 
   def initialize(hunter)
@@ -11,7 +11,7 @@ class Hunting
     @hunters = all_hunters.map{|hunter| { id: hunter.id, email: hunter.email, cookies: hunter.cookies}}
     @steal_bucket = StealBucket.instance
     @active_bonuses = @hunter.active_bonuses
-    @available_bonuses = Bonus.get_available_bonuses(@hunter.cookies)
+    @all_bonuses = Bonuses::Bonus.all_bonuses_for(@stockpile)
   end
 
 end

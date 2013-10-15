@@ -1,4 +1,10 @@
 <h3>Cookies</h3>
+<div class='info'>
+  <p>Get <%= @hunting.stockpile.clicks %> cookies per click</p>
+  <p>Regenerate <%= @hunting.stockpile.regeneration %> cookies per minute</p>
+  <p>Steal <%= @hunting.stockpile.steals %> cookies per 10 seconds</p>
+  <p>Stockpile saves <%= @hunting.stockpile.saves %> cookies forever</p>
+</div>
 
 <div class='cookies_link'>
   <%= link_to "Cookies: #{@hunting.hunter.cookies}", add_stockpile_path,

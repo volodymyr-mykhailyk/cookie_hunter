@@ -38,71 +38,73 @@ describe Stockpile do
       expect { @stockpile.remove(6) }.to_not change_model(@stockpile, :cookies)
     end
 
-    describe 'bonuses' do
-      describe 'buy bonus' do
-        before do
-          @stockpile.update_column(:cookies, 150)
-          @result = @stockpile.buy_bonus(ClickBonus)
-        end
-
-        it { expect(@result).to be_true }
-
-        it 'should check if has bonus' do
-          expect(
-            @stockpile.active_bonuses
-          ).to include(ClickBonus.new.to_hash.merge(count: 1))
-        end
-
-        it { expect(@stockpile.reload.regeneration).to eq(1) }
-      end
-
-      describe 'fail' do
-        before do
-          @stockpile.update_column(:cookies, 50)
-          @result = @stockpile.buy_bonus(ClickBonus)
-        end
-        it { expect(@result).to be_false }
-        it { expect(@stockpile.active_bonuses.size).to eq(0) }
-      end
-    end
-
-    describe 'regenerate_cookies' do
+    describe 'add_what_should' do
       before do
-        @stockpile1 = create(:stockpile, cookies: 0, regeneration: 5)
-        @stockpile2 = create(:stockpile, cookies: 0, regeneration: 10)
-        Stockpile.regenerate_cookies
+        @stockpile.update_column(:clicks, 10)
       end
 
-      it { expect(@stockpile1.reload.cookies).to eq(5) }
-      it { expect(@stockpile2.reload.cookies).to eq(10) }
+      it 'should change cookies by 10' do
+        expect { @stockpile.add_what_should }.to change_model(@stockpile, :cookies).by(10)
+      end
+    end
+
+    describe 'remove_what_can' do
+      before do
+        @stockpile.update_attributes(cookies: 20, saves: 0)
+        @another_hunter = create(:hunter)
+        @another_hunter.stockpile.update_column(:steals, 10)
+      end
+
+      it 'should get 10' do
+        expect {
+          @result = @stockpile.remove_what_can(@another_hunter)
+        }.to change_model(@stockpile, :cookies).by(-10)
+        expect(@result).to eq(-10)
+      end
+
+      describe 'stockpile has less than hunter can steal' do
+        before do
+          @stockpile.update_attributes(cookies: 5, saves: 0)
+        end
+
+        it 'should get 5' do
+          expect {
+            @result = @stockpile.remove_what_can(@another_hunter)
+          }.to change_model(@stockpile, :cookies).by(-5)
+          expect(@result).to eq(-5)
+        end
+      end
+
+      describe 'stockpile saves 10' do
+        before do
+          @stockpile.update_attributes(cookies: 15, saves: 10)
+        end
+
+        it 'should get 5' do
+          expect {
+            @result = @stockpile.remove_what_can(@another_hunter)
+          }.to change_model(@stockpile, :cookies).by(-5)
+          expect(@result).to eq(-5)
+        end
+      end
+
+      describe 'stockpile saves more than has' do
+        before do
+          @stockpile.update_attributes(cookies: 15, saves: 100)
+        end
+
+        it 'should get 5' do
+          expect {
+            @result = @stockpile.remove_what_can(@another_hunter)
+          }.to change_model(@stockpile, :cookies).by(0)
+          expect(@result).to eq(0)
+        end
+      end
 
     end
+
+
 
   end
 
-
-  describe 'locking strategies' do
-    before do
-      @strategy = double(:lock_strategy, perform: false)
-      @stockpile.stub(:change_lock_strategy).and_return @strategy
-    end
-
-    it 'should use lock strategy for add' do
-      @strategy.should_receive(:perform).and_yield
-      expect { @stockpile.add(3) }.to change_model(@stockpile, :cookies).by(3)
-    end
-
-    it 'should use lock strategy for remove' do
-      @strategy.should_receive(:perform).and_yield
-      expect { @stockpile.remove(3) }.to change_model(@stockpile, :cookies).by(-3)
-    end
-
-    it 'should not change value if not yielded' do
-      expect { @stockpile.remove(3) }.to_not change_model(@stockpile, :cookies)
-    end
-
-    it 'should return 0 if not yielded' do
-      expect { @stockpile.add(3) }.to return_value(0)
-    end
-  end
 end

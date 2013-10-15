@@ -1,11 +1,15 @@
 class window.Hunting
   constructor: (@$div) ->
     @init_components()
+    @set_interval()
 
   init_components: ->
     @hunters = new window.Hunter.init(@, $('#hunters_div'))
     @cookies = new window.Cookies(@, $('#cookies_div'))
     @steal_bucket = new window.StealBucket(@, $('#cookies_div'))
+
+  set_interval: ->
+    window.setInterval (=> @update()), 10000
 
   update: ->
     $.getJSON '/hunting', (data) =>

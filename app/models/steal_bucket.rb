@@ -4,4 +4,5 @@ class StealBucket < Bucket
     self.last || create
   end
 
+
 end
