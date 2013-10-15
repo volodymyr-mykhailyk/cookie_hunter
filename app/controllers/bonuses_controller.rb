@@ -3,7 +3,7 @@ class BonusesController < ApplicationController
 
   def buy
     if Bonus::TYPES.map(&:to_s).include?(params[:type])
-      result = @hunter.stockpile.buy_bonus(params[:type].constantize)
+      @hunter.stockpile.buy_bonus(params[:type].constantize)
       respond_to do |format|
         format.html { redirect_to hunting_path }
       end

@@ -24,7 +24,7 @@ feature 'Hunting' do
     before do
       @hunter1 = create(:hunter, cookies: 1)
       visit hunting_path
-      click_on "steal_form_hunter_#{ @hunter1.id}"
+      click_on "steal_from_hunter_#{ @hunter1.id}"
     end
 
     it 'should add cookie' do
@@ -58,6 +58,23 @@ feature 'Hunting' do
       expect(current_path).to eq(hunting_path)
     end
   end
+
+  describe 'buy bonus' do
+    before do
+      @hunter.stockpile.update_column(:cookies, 150)
+      visit hunting_path
+      click_on "available_bonus_ClickBonus"
+    end
+
+    it 'should check bonus' do
+      expect(@hunter.active_bonuses.size).to eq(1)
+    end
+
+    it 'should check regeneration' do
+      expect(@hunter.stockpile.reload.regeneration).to eq(1)
+    end
+  end
+
 
 
 end

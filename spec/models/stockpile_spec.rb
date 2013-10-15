@@ -39,14 +39,45 @@ describe Stockpile do
     end
 
     describe 'bonuses' do
-      before do
-        3.times{ create(:click_bonus, stockpile: @stockpile) }
+      describe 'buy bonus' do
+        before do
+          @stockpile.update_column(:cookies, 150)
+          @result = @stockpile.buy_bonus(ClickBonus)
+        end
+
+        it { expect(@result).to be_true }
+
+        it 'should check if has bonus' do
+          expect(
+            @stockpile.active_bonuses
+          ).to include(ClickBonus.new.to_hash.merge(count: 1))
+        end
+
+        it { expect(@stockpile.reload.regeneration).to eq(1) }
       end
 
-      it 'should set regeneration in stockpile' do
-        expect(@stockpile.regeneration).to eq(3)
+      describe 'fail' do
+        before do
+          @stockpile.update_column(:cookies, 50)
+          @result = @stockpile.buy_bonus(ClickBonus)
+        end
+        it { expect(@result).to be_false }
+        it { expect(@stockpile.active_bonuses.size).to eq(0) }
       end
     end
+
+    describe 'regenerate_cookies' do
+      before do
+        @stockpile1 = create(:stockpile, cookies: 0, regeneration: 5)
+        @stockpile2 = create(:stockpile, cookies: 0, regeneration: 10)
+        Stockpile.regenerate_cookies
+      end
+
+      it { expect(@stockpile1.reload.cookies).to eq(5) }
+      it { expect(@stockpile2.reload.cookies).to eq(10) }
+
+    end
+
   end
 
 

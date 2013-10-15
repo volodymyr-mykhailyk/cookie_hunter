@@ -19,3 +19,4 @@
 .ruby-version
 .idea
 config/database.yml
+coverage

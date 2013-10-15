@@ -13,7 +13,8 @@
       <div class='available_bonus'>
         <%= link_to "#{bonus[:name]} (+#{bonus[:regeneration]}): Price: #{bonus[:price]}",
                     buy_bonuses_path(type: bonus[:class]),
-                    class: "btn btn-success btn-large bonus_#{bonus[:class]}"
+                    class: "btn btn-success btn-large",
+                    id: "available_bonus_#{bonus[:class]}"
         %>
       </div>
   <% end %>

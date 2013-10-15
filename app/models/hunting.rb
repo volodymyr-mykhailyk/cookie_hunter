@@ -6,7 +6,7 @@ class Hunting
   def initialize(hunter)
     @hunter = hunter
     @stockpile = @hunter.stockpile
-    all_hunters = Hunter.select(:id, :email).all.to_a
+    all_hunters = Hunter.select(:id, :email).where(nil).to_a
     all_hunters.delete(hunter)
     @hunters = all_hunters.map{|hunter| { id: hunter.id, email: hunter.email, cookies: hunter.cookies}}
     @steal_bucket = StealBucket.instance

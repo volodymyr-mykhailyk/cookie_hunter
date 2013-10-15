@@ -39,6 +39,7 @@ group :test do
   gem 'capybara-webkit'
   gem 'launchy'
   gem 'selenium-webdriver'
+  gem 'simplecov', require: false
 end
 
 group :production do
