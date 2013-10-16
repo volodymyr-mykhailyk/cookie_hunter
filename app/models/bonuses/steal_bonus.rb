@@ -1,8 +1,11 @@
 class Bonuses::StealBonus < Bonuses::Bonus
-  TYPES = [
-      Bonuses::Trick,
-      Bonuses::Cheat
-  ]
+
+  def self.types
+    [
+        Bonuses::Trick,
+        Bonuses::Cheat
+    ]
+  end
 
   validates_presence_of :steals
 

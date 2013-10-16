@@ -11,8 +11,9 @@
   <h4>Available bonuses</h4>
   <% @hunting.all_bonuses.each do |bonus| %>
       <div class='available_bonus'>
-        <%= link_to "#{bonus[:name]} (+#{bonus[:regeneration]}): Price: #{bonus[:price]}",
+        <%= link_to "#{bonus[:name]} (#{bonus[:value]}): Price: #{bonus[:price]}",
                     buy_bonuses_path(type: bonus[:class]),
+                    title: bonus[:description],
                     class: "btn btn-success btn-large",
                     id: "available_bonus_#{bonus[:class]}"
         %>

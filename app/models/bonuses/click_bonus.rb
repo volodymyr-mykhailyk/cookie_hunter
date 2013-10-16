@@ -1,9 +1,11 @@
 class Bonuses::ClickBonus < Bonuses::Bonus
 
-  TYPES = [
-      Bonuses::PlusClick,
-      Bonuses::DoubleClick
-  ]
+  def self.types
+    [
+        Bonuses::PlusClick,
+        Bonuses::DoubleClick
+    ]
+  end
 
   validates_presence_of :clicks
 

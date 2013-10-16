@@ -1,8 +1,11 @@
 class Bonuses::SaveBonus < Bonuses::Bonus
-  TYPES = [
-      Bonuses::CookieBox,
-      Bonuses::BreadPlate
-  ]
+
+  def self.types
+    [
+        Bonuses::CookieBox,
+        Bonuses::BreadPlate
+    ]
+  end
 
   validates_presence_of :saves
 

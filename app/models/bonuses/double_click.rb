@@ -2,6 +2,7 @@ class Bonuses::DoubleClick < Bonuses::ClickBonus
   CLICKS = '*2' #should be the same as stockpile.clicks on creation
   BASIC_PRICE = 5000
   NAME = 'Double Click'
+  DESCRIPTION = "Doubles cookies per click"
 
   def set_clicks
     self.clicks = stockpile.clicks

@@ -1,9 +1,11 @@
 class Bonuses::RegenerationBonus < Bonuses::Bonus
 
-  TYPES = [
-      Bonuses::GrandMother,
-      Bonuses::Stove
-  ]
+  def self.types
+    [
+        Bonuses::GrandMother,
+        Bonuses::Stove
+    ]
+  end
 
   validates_presence_of :regeneration
 

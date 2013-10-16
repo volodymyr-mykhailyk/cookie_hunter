@@ -3,13 +3,14 @@ module Bonuses
 
     self.table_name = 'bonuses'
 
-    TYPES = [
-        Bonuses::ClickBonus::TYPES,
-        Bonuses::SaveBonus::TYPES,
-        Bonuses::RegenerationBonus::TYPES,
-        Bonuses::StealBonus::TYPES
-    ].flatten
-
+    def self.types
+      [
+          Bonuses::ClickBonus.types,
+          Bonuses::SaveBonus.types,
+          Bonuses::RegenerationBonus.types,
+          Bonuses::StealBonus.types
+      ].flatten
+    end
     validates :type, :stockpile_id, presence: true
 
     belongs_to :stockpile
@@ -18,6 +19,10 @@ module Bonuses
 
     def name
       self.class::NAME
+    end
+
+    def description
+      self.class::DESCRIPTION
     end
 
     def price_for(stockpile)
@@ -30,12 +35,12 @@ module Bonuses
     end
 
     def to_hash
-      { name: name, class: self.class.name, value: value }
+      { name: name, class: self.class.name, value: value, description: description }
     end
 
     class << self
       def all_bonuses_for(stockpile)
-        instances = TYPES.map(&:new)
+        instances = types.map(&:new)
         instances.map! do |bonus|
           bonus.to_hash.merge(price: bonus.price_for(stockpile))
         end
