@@ -12,7 +12,7 @@ module Cookable
 
   def remove(amount = 1)
     change_with_lock do
-      amount_to_remove = [cookies, amount].min
+      amount_to_remove = [unsafe_cookies, amount].min
       change_cookies(-amount_to_remove)
     end
   end
@@ -25,7 +25,15 @@ module Cookable
     end
   end
 
+  def transfer_to(cookable, amount)
+    cookable.transfer_from(self, amount)
+  end
+
   protected
+  def unsafe_cookies
+    cookies
+  end
+
   def change_cookies(amount)
     self.cookies += amount
     save ? amount : nil

@@ -12,7 +12,23 @@ class Stockpile < ActiveRecord::Base
   end
 
   def add_what_should
-    add(self.clicks)
+    add(receive_per_click)
+  end
+
+  def steal_by(hunter)
+    transfer_to(StealBucket.instance, hunter.steals_per_click)
+  end
+
+  def get_from(bucket)
+    transfer_from(bucket, receive_per_click)
+  end
+
+  def steals_per_click
+    steals
+  end
+
+  def receive_per_click
+    clicks
   end
 
   def remove_what_can(another_hunter)
@@ -71,6 +87,11 @@ class Stockpile < ActiveRecord::Base
   def recalculate_steals
     steals = bonuses.sum(:steals)
     update_column(:steals, steals + 1)
+  end
+
+  protected
+  def unsafe_cookies
+    [cookies - saves, 0].max
   end
 
 

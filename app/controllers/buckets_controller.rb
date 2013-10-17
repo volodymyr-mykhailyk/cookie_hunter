@@ -4,8 +4,7 @@ class BucketsController < ApplicationController
 
   def get
     steal_bucket = StealBucket.instance
-    cookies_changed = steal_bucket.get_what_can(@hunter)
-    @hunter.stockpile.add(-cookies_changed)
+    @hunter.get_from(steal_bucket)
 
     respond_to do |format|
       format.json do
