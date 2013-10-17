@@ -7,7 +7,7 @@ describe Stockpile do
 
   describe 'locking strategies' do
     before do
-      @strategy = double(:lock_strategy, perform: false)
+      @strategy = double(:lock_strategy, perform: nil)
       @stockpile.stub(:change_lock_strategy).and_return @strategy
     end
 
