@@ -6,56 +6,49 @@ feature 'Hunting' do
     visit hunting_path
   end
 
-  describe 'Click to add cookie' do
-    before do
-      click_on 'add_cookie_link'
-    end
-
+  describe 'getting cookie from own bucket' do
     it 'should add cookie' do
-      expect(@hunter.reload.cookies).to eq(1)
+      expect { click_own_bucket }.to change_model(@hunter, :cookies).by(1)
     end
 
-    it 'should redirect to correct path' do
-      expect(current_path).to eq(hunting_path)
+    it 'should redirect back to hunting' do
+      expect { click_own_bucket }.to_not change { current_path }
     end
   end
 
   describe 'Steal cookie from another user' do
     before do
-      @hunter1 = create(:hunter, cookies: 1)
-      visit hunting_path
-      click_on "steal_from_hunter_#{@hunter1.id}"
+      @target = create(:hunter, cookies: 10)
     end
 
-    it 'should add cookie' do
-      expect(@hunter1.reload.cookies).to eq(0)
+    it 'should remove cookie from hunter' do
+      expect { click_to_steal(@target) }.to change_model(@target, :cookies).by(-1)
     end
 
-    it 'should remove cookie from steal_bucket' do
-      expect(StealBucket.instance.cookies).to eq(1)
+    it 'should add cookie to steal bucket' do
+      expect { click_to_steal(@target) }.to change_model(steal_bucket, :cookies).by(1)
     end
 
     it 'should redirect to correct path' do
-      expect(current_path).to eq(hunting_path)
+      expect { click_to_steal(@target) }.to_not change { current_path }
     end
   end
 
-  describe 'Click on steal_bucket' do
+  describe 'getting cookie from steal bucket' do
     before do
-      StealBucket.instance.add
-      click_on 'get_steal_bucket_link'
+      steal_bucket.add(10)
     end
 
-    it 'should add cookie' do
-      expect(@hunter.reload.cookies).to eq(1)
+    it 'should add cookie to hunter' do
+      expect { click_steal_bucket }.to change_model(@hunter, :cookies).by(1)
     end
 
-    it 'should remove cookie from steal_bucket' do
-      expect(StealBucket.instance.cookies).to eq(0)
+    it 'should remove cookie from bucket' do
+      expect { click_steal_bucket }.to change_model(steal_bucket, :cookies).by(-1)
     end
 
     it 'should redirect to correct path' do
-      expect(current_path).to eq(hunting_path)
+      expect { click_steal_bucket }.to_not change { current_path }
     end
   end
 
@@ -75,7 +68,6 @@ feature 'Hunting' do
       expect(@hunter.stockpile.reload.clicks).to eq(2)
     end
   end
-
 
 
 end
