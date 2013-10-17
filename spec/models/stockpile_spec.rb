@@ -22,20 +22,20 @@ describe Stockpile do
       expect { @stockpile.remove(4) }.to return_value(-4)
     end
 
+    it 'should remove only available cookies' do
+      expect { @stockpile.remove(10) }.to change(@stockpile, :cookies).by(-5)
+    end
+
+    it 'should return removed cookies if tried to remove more' do
+      expect { @stockpile.remove(10) }.to return_value(-5)
+    end
+
     it 'should return added amount' do
       expect { @stockpile.add(4) }.to return_value(4)
     end
 
     it 'should allow 0 cookies' do
       expect { @stockpile.remove(5) }.to change_model(@stockpile, :cookies).to(0)
-    end
-
-    it 'should return 0 if result cookies less then 0' do
-      expect { @stockpile.remove(6) }.to return_value(0)
-    end
-
-    it 'should not change cookies if result cookies less then 0' do
-      expect { @stockpile.remove(6) }.to_not change_model(@stockpile, :cookies)
     end
 
     describe 'add_what_should' do
