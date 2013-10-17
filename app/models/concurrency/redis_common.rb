@@ -13,9 +13,9 @@ module Concurrency
     #check if key not corrupted and removing it expiration.
     # current call should be failed anyway
     def verify_lock(name)
-      return false if Time.now.to_f < redis.get(name).to_f
+      return nil if Time.now.to_f < redis.get(name).to_f
       redis.del(name)
-      false
+      nil
     end
 
     #removes lock after block executed

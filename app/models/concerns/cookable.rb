@@ -7,29 +7,43 @@ module Cookable
   end
 
   def add(amount = 1)
-    change_cookies(amount)
+    change_with_lock { change_cookies(amount) }
   end
 
   def remove(amount = 1)
-    change_cookies(-amount)
+    change_with_lock { change_cookies(-amount) }
+  end
+
+  def transfer_from(cookable, amount)
+    change_with_lock do
+      removed = cookable.remove(amount)
+      Cookable.transfer_testing_hook
+      change_cookies(-removed)
+    end
   end
 
   protected
+  def change_cookies(amount)
+    self.cookies += amount
+    save ? amount : nil
+  end
 
-  def change_cookies(amount, options = {})
-    lock_success = change_lock_strategy.perform(options) do
+  def change_with_lock(options = {}, &block)
+    changed_amount = change_lock_strategy.perform(options) do
       Cookable.change_testing_hook
-      self.cookies += amount
-      save
+      yield
     end
 
-    lock_success ? amount : 0
+    changed_amount.to_i
   end
 
   def change_lock_strategy
-    Concurrency::LockStrategies::Plain.new(self)
+    @change_lock_strategy ||= Concurrency::LockStrategies::Plain.new(self)
   end
 
   def self.change_testing_hook
+  end
+
+  def self.transfer_testing_hook
   end
 end

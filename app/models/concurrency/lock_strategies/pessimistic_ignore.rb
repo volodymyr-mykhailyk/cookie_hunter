@@ -10,6 +10,8 @@ class Concurrency::LockStrategies::PessimisticIgnore
       @record.class.lock('FOR UPDATE NOWAIT').find(@record.id)
       yield
     end
+  rescue
+    nil
   end
 end
 
