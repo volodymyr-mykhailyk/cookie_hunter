@@ -49,7 +49,7 @@ module Cookable
   end
 
   def change_lock_strategy
-    @change_lock_strategy ||= Concurrency::LockStrategies::Plain.new(self)
+    @change_lock_strategy ||= Concurrency::LockStrategies::Redis.new(self)
   end
 
   def self.change_testing_hook
