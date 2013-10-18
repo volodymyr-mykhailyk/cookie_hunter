@@ -1,3 +1,11 @@
+def total_cookies
+  Bucket.sum(:cookies).to_i + Stockpile.sum(:cookies).to_i
+end
+
+#disabled tests group. prevents pending notification. use when tests are for debug purpose only
+def d_describe(*args, &block)
+end
+
 def change_model(model, method)
   change { model.reload.send(method) }
 end

@@ -34,7 +34,3 @@ end
 def delay_transfer(by_time = 0.3)
   Cookable.stub(:transfer_testing_hook).and_return { sleep(by_time) }
 end
-
-def total_cookies
-  Bucket.sum(:cookies).to_i
-end
