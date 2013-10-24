@@ -39,12 +39,15 @@ module Bonuses
     end
 
     class << self
+
       def all_bonuses_for(stockpile)
         instances = types.map(&:new)
         instances.map! do |bonus|
           bonus.to_hash.merge(price: bonus.price_for(stockpile))
         end
       end
+
     end
+
   end
 end
