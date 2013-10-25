@@ -5,6 +5,14 @@ module LoginHunter
     login_as hunter
     hunter
   end
+
+  def login_hunter_remote(hunter = create(:hunter), attrs = {})
+    visit new_hunter_session_path
+    fill_in 'hunter_email', with: hunter.email
+    fill_in 'hunter_password', with: '12345678'
+    click_on 'Sign in'
+    hunter
+  end
 end
 
 RSpec.configure do |config|

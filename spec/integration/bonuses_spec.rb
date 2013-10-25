@@ -2,7 +2,8 @@ require 'spec_helper'
 
 feature 'Bonuses' do
   background do
-    @hunter = login_hunter(create(:hunter, cookies: 4000))
+    #@hunter = login_hunter(create(:hunter, cookies: 4000))
+    @hunter = login_hunter_remote(create(:hunter, cookies: 4000))
     visit hunting_path
   end
 

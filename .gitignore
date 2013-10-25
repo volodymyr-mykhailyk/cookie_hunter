@@ -20,3 +20,5 @@
 .idea
 config/database.yml
 coverage
+.vagrant
+package.box
