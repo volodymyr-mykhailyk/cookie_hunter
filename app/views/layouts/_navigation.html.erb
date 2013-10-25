@@ -9,11 +9,12 @@
       <a class="brand" href="/">Cookie Hunter</a>
       <div class="nav-collapse">
         <ul class="nav">
-          <li><%= link_to "Hunt!!!", hunting_path %></li>
-          <li><%= link_to "Sign In", new_hunter_session_path %></li>
-          <li><%= link_to "Sign Out", destroy_hunter_session_path, method: :delete %></li>
-          <li><%= link_to "Sign Up", new_hunter_registration_path %></li>
-          <li><%= link_to "About" %></li>
+          <% if current_hunter %>
+              <li><%= link_to "Sign Out", destroy_hunter_session_path, method: :delete %></li>
+          <% else %>
+              <li><%= link_to "Sign In", new_hunter_session_path %></li>
+              <li><%= link_to "Sign Up", new_hunter_registration_path %></li>
+          <% end %>
         </ul>
       </div>
     </div>

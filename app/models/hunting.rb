@@ -1,7 +1,7 @@
 class Hunting
 
-  JSON_ATTRIBUTES = %i(hunter stockpile hunters steal_bucket active_bonuses all_bonuses)
-  attr_reader *JSON_ATTRIBUTES
+  ATTRIBUTES = %i(hunter stockpile hunters steal_bucket active_bonuses all_bonuses)
+  attr_reader *ATTRIBUTES
 
   def initialize(hunter)
     @hunter = hunter
