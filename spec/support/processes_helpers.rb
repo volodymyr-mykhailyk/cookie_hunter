@@ -5,16 +5,17 @@ def single_process(*args, &block)
   end
 end
 
-def several_processes(arguments = 4.times.map, &block)
-  with_reconnect do
-    running = arguments.map { |args| sleep(0.01); run_in_process(args, &block) }
-    running.each { |process_id| Process.waitpid(process_id) }
-  end
+def run_in_process(*args, &block)
+  fork { with_reconnect(*args, &block) }
 end
 
-def run_in_process(*args, &block)
-  fork do
-    with_reconnect(*args, &block)
+def several_processes(arguments = 4.times.map, &block)
+  with_reconnect do
+    running = arguments.map do |args|
+      sleep(0.01)
+      run_in_process(args, &block)
+    end
+    running.each { |process_id| Process.waitpid(process_id) }
   end
 end
 

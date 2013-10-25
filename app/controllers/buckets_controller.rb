@@ -5,8 +5,7 @@ class BucketsController < ApplicationController
   request_cooldown_filter :bucket_response, 'getting_from_bucket', 100
 
   def get
-    steal_bucket = StealBucket.instance
-    @hunter.get_from(steal_bucket)
+    @hunter.get_from(StealBucket.instance)
 
     bucket_response
   end
@@ -17,7 +16,7 @@ class BucketsController < ApplicationController
       format.json do
         render json: {
             stockpile: { cookies: @hunter.cookies },
-            steal_bucket: { cookies: steal_bucket.cookies }
+            steal_bucket: { cookies: StealBucket.instance.cookies }
         }
       end
       format.html { redirect_to hunting_path }
