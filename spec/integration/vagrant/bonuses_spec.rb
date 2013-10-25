@@ -1,5 +1,8 @@
 require 'spec_helper'
 
+Capybara.current_driver = :mechanize
+Capybara.app_host = 'http://localhost:3001'
+
 feature 'Bonuses' do
   background do
     @hunter = login_hunter_remote(create(:hunter, cookies: 4000))
