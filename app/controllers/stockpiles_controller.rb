@@ -24,6 +24,4 @@ class StockpilesController < ApplicationController
       format.html { redirect_to hunting_path }
     end
   end
-
-
 end

@@ -1,6 +1,8 @@
 class HuntingsController < ApplicationController
+  include DoubleRequestProtected
+
   before_filter :authenticate_hunter!
-  after_filter :bonus_double_request_lock
+  after_filter :double_request_lock
 
   def show
     @hunting = Hunting.new(@hunter)
@@ -8,12 +10,6 @@ class HuntingsController < ApplicationController
       format.html { render :show }
       format.json { render json: @hunting.to_json }
     end
-  end
-
-  private
-
-  def bonus_double_request_lock
-    redis.setnx(lock_key('bonus_double_request'), 'flag')
   end
 
 end

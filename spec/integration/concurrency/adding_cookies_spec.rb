@@ -20,10 +20,6 @@ feature 'Concurrent cookies add' do
     expect { add_cookies }.to change_model(@hunter, :cookies).by(1)
   end
 
-  it 'should execute all calls in several threads (capybara limitation)' do
-    expect { several_threads { click_own_bucket } }.to change_model(@hunter, :cookies).by(4)
-  end
-
   it 'should support locking and prevent concurrent modifications in several processes' do
     expect { add_cookies(5, 2) }.to change_model(@hunter, :cookies).by_at_least(1).by_at_most(9)
   end

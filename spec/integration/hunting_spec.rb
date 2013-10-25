@@ -56,16 +56,18 @@ feature 'Hunting' do
     before do
       @hunter.stockpile.update_column(:cookies, Bonuses::PlusClick::BASIC_PRICE)
       visit hunting_path
-      click_on "available_bonus_Bonuses::PlusClick"
-      @hunter.stockpile.instance_variable_set('@all_bonuses', nil)
     end
 
-    it 'should check bonus' do
-      expect(@hunter.reload.active_bonuses.size).to eq(1)
+    def buy_bonus
+      click_on 'bonus_Bonuses::PlusClick'
     end
 
-    it 'should check regeneration' do
-      expect(@hunter.stockpile.reload.clicks).to eq(2)
+    it 'should add active bonus item' do
+      expect { buy_bonus }.to change { @hunter.reload.active_bonuses.size }.to(1)
+    end
+
+    it 'should change click cookies amount' do
+      expect { buy_bonus }.to change_model(@hunter.stockpile, :clicks).to(2)
     end
   end
 
