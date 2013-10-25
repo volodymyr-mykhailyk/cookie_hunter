@@ -52,24 +52,5 @@ feature 'Hunting' do
     end
   end
 
-  describe 'buy bonus' do
-    before do
-      @hunter.stockpile.update_column(:cookies, Bonuses::PlusClick::BASIC_PRICE)
-      visit hunting_path
-    end
-
-    def buy_bonus
-      click_on 'bonus_Bonuses::PlusClick'
-    end
-
-    it 'should add active bonus item' do
-      expect { buy_bonus }.to change { @hunter.reload.active_bonuses.size }.to(1)
-    end
-
-    it 'should change click cookies amount' do
-      expect { buy_bonus }.to change_model(@hunter.stockpile, :clicks).to(2)
-    end
-  end
-
 
 end

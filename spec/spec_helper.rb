@@ -3,6 +3,8 @@ require 'spork'
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
 require 'capybara/rspec'
+require 'capybara/mechanize'
+
 Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app, :browser => :chrome)
 end
@@ -20,11 +22,6 @@ Spork.prefork do
   require 'rspec/autorun'
   require 'capybara/rails'
   require 'sidekiq/testing'
-
-
-  Capybara.server_port = 31337
-  Capybara.default_wait_time = 10
-  Capybara.javascript_driver = :chrome
 
   # Requires supporting ruby files with custom matchers and macros, etc,
   # in spec/support/ and its subdirectories.
