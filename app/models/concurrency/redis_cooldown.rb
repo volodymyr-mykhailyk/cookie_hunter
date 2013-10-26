@@ -16,7 +16,7 @@ module Concurrency::RedisCooldown
       #  workaround for heroku old redis
       #locks are not working properly in this mode
       return false unless redis.setnx(name, lock_end_time)
-      redis.pexpire(name, cooldown_time)
+      redis.expire(name, cooldown_time)
       true
     end
   end
