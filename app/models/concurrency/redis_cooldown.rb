@@ -10,12 +10,6 @@ module Concurrency::RedisCooldown
   protected
   def obtain_cooldown(name, cooldown_time)
     lock_end_time = (Time.now.to_f + cooldown_time + 1)
-    if redis.method(:set).arity == 3
-      redis.set(name, lock_end_time, {px: cooldown_time, nx: true})
-    else
-      #  workaround for heroku old redis
-      #locks are not working properly in this mode
-      true
-    end
+    redis.set(name, lock_end_time, {px: cooldown_time, nx: true})
   end
 end
