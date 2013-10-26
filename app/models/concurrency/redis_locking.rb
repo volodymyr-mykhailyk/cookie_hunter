@@ -19,8 +19,10 @@ module Concurrency::RedisLocking
     if redis.method(:set).arity == 3
       redis.set(name, lock_end_time, {ex: lock_time, nx: true})
     else
-      #workaround for heroku old redis
-      #no cooldown. because redis 2.4 doesnt support miliseconds expiration
+      #  workaround for heroku old redis
+      #locks are not working properly in this mode
+      return false unless redis.setnx(name, lock_end_time)
+      redis.expire(name, lock_end_time)
       true
     end
   end
