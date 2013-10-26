@@ -1,3 +1,3 @@
-#if !defined?(Rake) || Rails.env.test?
+if !defined?(Rake) || Rails.env.test?
   require 'delta_attributes/main'
-#end
+end
