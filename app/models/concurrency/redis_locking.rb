@@ -21,8 +21,6 @@ module Concurrency::RedisLocking
     else
       #  workaround for heroku old redis
       #locks are not working properly in this mode
-      return false unless redis.setnx(name, lock_end_time)
-      redis.expire(name, lock_end_time)
       true
     end
   end
